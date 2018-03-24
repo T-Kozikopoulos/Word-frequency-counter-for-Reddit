@@ -2,10 +2,8 @@ import requests
 from bs4 import BeautifulSoup
 import operator
 
-
 # Some of the most popular, regularly updated news subreddits, chosen to observe trends.
 subreddits = ['news', 'worldnews', 'politics', 'worldpolitics', 'worldevents', 'futurology', 'politicaldiscussion', 'truereddit']
-
 
 # Scrape a subreddit, turn code into a string, make everything lowercase, divide into individual words.
 def crawl(subreddit):
@@ -13,11 +11,13 @@ def crawl(subreddit):
     word_list = []
     source_code = requests.get(url).text
     soup = BeautifulSoup(source_code, "html.parser")
+    
     for post_text in soup.findAll('a', {'class': 'title may-blank outbound'}):
         content = post_text.string
         words = content.lower().split()
         for each_word in words:
             word_list.append(each_word)
+    
     clean_list(word_list)
 
 
